@@ -1,22 +1,39 @@
 class Solution {
     public int maxVowels(String s, int k) {
-        Set<Character> vowels = Set.of('a','e','i','o','u');
         int count = 0;
-        for(int i=0; i<k; i++)
-        {
-            if(vowels.contains(s.charAt(i)))
-            {
+        int maxCount = 0;
+        
+        // 1. Process the initial window of size k
+        for (int i = 0; i < k; i++) {
+            if (isVowel(s.charAt(i))) {
                 count++;
             }
         }
-        int maxCount = count;
-        for(int i=k; i<s.length(); i++)
-        {
-            count += vowels.contains(s.charAt(i)) ? 1 : 0;
-            count -= vowels.contains(s.charAt(i-k)) ? 1 : 0;
-            maxCount = Math.max(maxCount, count);
-        }
-        return maxCount;
+        maxCount = count;
+        
+        // Early exit optimization
+        if (maxCount == k) return k;
 
+        // 2. Slide the window across the remaining characters
+        for (int i = k; i < s.length(); i++) {
+            if (isVowel(s.charAt(i))) {
+                count++;
+            }
+            if (isVowel(s.charAt(i - k))) {
+                count--;
+            }
+            
+            if (count > maxCount) {
+                maxCount = count;
+                if (maxCount == k) return k; // Early exit if max possible vowels achieved
+            }
+        }
+        
+        return maxCount;
+    }
+
+    // Helper method replacing Set lookup for O(1) performance and primitive execution
+    private boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 }
