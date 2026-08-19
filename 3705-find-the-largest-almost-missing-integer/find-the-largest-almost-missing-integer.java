@@ -40,6 +40,7 @@ class Solution {
             {
                 ans = Math.max(ans, nums[nums.length - 1]);
             }
+            return ans;
         }
         return ans;
     }
