@@ -9,43 +9,50 @@
  * }
  */
 class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if (l1 == null) { return l2; }
-        if (l2 == null) { return l1; }
 
-        Stack<Integer> stack1 = new Stack<>();
-        Stack<Integer> stack2 = new Stack<>();
-        
-        // Push all digits of l1 onto stack1
-        while (l1 != null) {
-            stack1.push(l1.val);
-            l1 = l1.next;
+    //create the reverse function.
+    private ListNode reverse(ListNode head){
+        ListNode prev=null;
+        ListNode curr=head;
+        while(curr!=null){
+            ListNode next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
         }
-        
-        // Push all digits of l2 onto stack2
-        while (l2 != null) {
-            stack2.push(l2.val);
-            l2 = l2.next;
+        return prev;
+    }
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //Appply the LinkedList + stack pattern here.
+        //first reverse the both the linkedlist.
+        ListNode curr1=reverse(l1);
+        ListNode curr2=reverse(l2);
+        //first create dummy linkedlist.
+        ListNode dummy=new ListNode(-1);
+        ListNode curr=dummy;
+        //add two numbers now.
+        int carry=0;
+        while(curr1!=null || curr2!=null || carry!=0){
+            //add carry in sum.
+            int sum=carry;
+            //add first number from list1.
+            if(curr1!=null){
+                sum+=curr1.val;
+                curr1=curr1.next;
+            }
+            //add the second number.
+            if(curr2!=null){
+                sum+=curr2.val;
+                curr2=curr2.next;
+            }
+            //then find the carry.
+            carry=sum/10;
+            //then create the node of unit place.
+            curr.next=new ListNode(sum%10);
+            //increment the curr pointer.
+            curr=curr.next;
         }
-        
-        ListNode head = null;
-        int carry = 0;
-        
-        // Pop and add digits from right to left
-        while (!stack1.isEmpty() || !stack2.isEmpty() || carry > 0) {
-            int val1 = !stack1.isEmpty() ? stack1.pop() : 0;
-            int val2 = !stack2.isEmpty() ? stack2.pop() : 0;
-            
-            int sum = val1 + val2 + carry;
-            int digit = sum % 10;
-            carry = sum / 10;
-            
-            // Build the result list backward (insert at the front)
-            ListNode newNode = new ListNode(digit);
-            newNode.next = head;
-            head = newNode;
-        }
-        
-        return head;
+        //at the last return then head of reverse linkedlist(dummy).
+        return reverse(dummy.next);
     }
 }
