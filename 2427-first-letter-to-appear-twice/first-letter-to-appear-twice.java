@@ -1,15 +1,23 @@
 class Solution {
     public char repeatedCharacter(String s) {
-        HashSet<Character> set = new HashSet<>();
-
-        for(char ch : s.toCharArray())
-        {
-            if(set.contains(ch))
-            {
-                return ch;
+        int count[] = new int[26];
+        for(int i=0;i<s.length();i++){
+            count[s.charAt(i)-'a']++;
+            if(count[s.charAt(i)-'a']==2){
+                return s.charAt(i);
             }
-            set.add(ch);
         }
-       return ' ';
+        return ' ';
+    //     HashSet<Character> set = new HashSet<>();
+
+    //     for(char ch : s.toCharArray())
+    //     {
+    //         if(set.contains(ch))
+    //         {
+    //             return ch;
+    //         }
+    //         set.add(ch);
+    //     }
+    //    return ' ';
     }
 }
