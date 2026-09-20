@@ -1,32 +1,63 @@
 class Solution {
     public int calPoints(String[] operations) {
+        // Stack<Integer> stack = new Stack<>();
+        // for(String op : operations)
+        // {
+        //     if(op.equals("C"))
+        //     {
+        //         stack.pop();
+        //     }
+        //     else if(op.equals("D"))
+        //     {
+        //         stack.push(stack.peek()*2);
+        //     }
+        //     else if(op.equals("+"))
+        //     {
+        //         int last = stack.peek();
+        //         int secondLast = stack.get(stack.size()-2);
+        //         stack.push(last + secondLast);
+        //     }
+        //     else
+        //     {
+        //         stack.push(Integer.parseInt(op));
+        //     }
+        // }
+        // int total = 0;
+        // while(!stack.isEmpty())
+        // {
+        //     total += stack.pop();
+        // }
+        // return total;
+
         Stack<Integer> stack = new Stack<>();
-        for(String op : operations)
-        {
-            if(op.equals("C"))
-            {
+
+        for (String op : operations) {
+
+            if (op.equals("C")) {
                 stack.pop();
             }
-            else if(op.equals("D"))
-            {
-                stack.push(stack.peek()*2);
-            }
-            else if(op.equals("+"))
-            {
+            else if (op.equals("D")) {
                 int last = stack.peek();
-                int secondLast = stack.get(stack.size()-2);
+                stack.push(2 * last);
+            }
+            else if (op.equals("+")) {
+                int last = stack.pop();
+                int secondLast = stack.peek();
+
+                stack.push(last);
                 stack.push(last + secondLast);
             }
-            else
-            {
+            else {
                 stack.push(Integer.parseInt(op));
             }
         }
-        int total = 0;
-        while(!stack.isEmpty())
-        {
-            total += stack.pop();
+
+        int sum = 0;
+
+        while (!stack.isEmpty()) {
+            sum += stack.pop();
         }
-        return total;
+
+        return sum;
     }
 }
