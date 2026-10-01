@@ -1,6 +1,6 @@
 class Solution {
     public boolean wordPattern(String pattern, String s) {
-        String[] word = s.split("\\s+");
+        String[] word = s.split(" ");
 
         if(pattern.length() != word.length)
         {
