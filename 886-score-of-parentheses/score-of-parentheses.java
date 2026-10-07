@@ -1,22 +1,18 @@
 class Solution {
     public int scoreOfParentheses(String s) {
-        Stack<Integer> stack = new Stack<>();
-        stack.push(0); // Base score for the outer level
-
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                stack.push(0); // Entering a new nested level, start fresh with score 0
+        int depth = 0;
+        int score = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                depth++;
             } else {
-                int innerScore = stack.pop(); // Score of the inner block
-                int outerScore = stack.pop(); // Score of the outer/previous block at this level
-                
-                // If innerScore is 0, it means we had "()", which scores 1.
-                // Otherwise, we had "(A)" which scores 2 * innerScore.
-                int currentScore = outerScore + Math.max(2 * innerScore, 1);
-                stack.push(currentScore);
+                depth--;
+                if (s.charAt(i - 1) == '(') {
+                    score += (1 << depth);
+                }
             }
         }
+        return score;
 
-        return stack.pop();
     }
 }
