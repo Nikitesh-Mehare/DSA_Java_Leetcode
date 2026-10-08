@@ -1,37 +1,33 @@
 class Solution {
     public String minWindow(String s, String t) {
-       Map<Character, Integer> need = new HashMap<>(), window = new HashMap<>();
-       for(char c : t.toCharArray())
-       {
-         need.put(c, need.getOrDefault(c, 0)+1);
-       } 
-         int have = 0, needCount = need.size(), left = 0;
-         int minLen = Integer.MAX_VALUE, start = 0;
+      int sLen = s.length(), tLen = t.length();
+        if (sLen < tLen) return "";
 
-         for(int right = 0; right < s.length(); right++)
-         {
-            char c = s.charAt(right);
-            window.put(c, window.getOrDefault(c, 0)+ 1);
-            if(need.containsKey(c) && window.get(c).equals(need.get(c)))
-            {
-                have++;
+        int[] counts = new int[128];
+        for (int i = 0; i < tLen; i++) {
+            counts[t.charAt(i)]++;
+        }
+
+        int left = 0, start = 0, minLen = Integer.MAX_VALUE, required = tLen;
+
+        for (int right = 0; right < sLen; right++) {
+            if (counts[s.charAt(right)]-- > 0) {
+                required--;
             }
-            while(have == needCount)
-            {
-                if(right-left+1 < minLen)
-                {
+
+            while (required == 0) {
+                if (right - left + 1 < minLen) {
                     minLen = right - left + 1;
                     start = left;
                 }
-                char d = s.charAt(left++);
-                window.put(d, window.get(d) - 1);
-                if(need.containsKey(d) && window.get(d) < need.get(d))
-                {
-                    have--;
+
+                if (counts[s.charAt(left++)]++ == 0) {
+                    required++;
                 }
             }
-         }
-         return minLen == Integer.MAX_VALUE ? "" :s .substring(start, start + minLen);
+        }
+
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start + minLen);
     }
     
 }
