@@ -7,13 +7,14 @@ class Solution {
 
         while(start < end)
         {
-            if(nums[start] + nums[end] == k)
+            int sum = nums[start] + nums[end];
+            if(sum == k)
             {
                 count++;
                 start++;
                 end--;
             }
-            else if(nums[start] + nums[end] > k)
+            else if(sum > k)
             {
                 end--;
             }
